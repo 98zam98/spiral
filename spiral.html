@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="myCanvas"></canvas>
+    <script>
+        const pointSize = 10;
+        // Get the canvas element
+        let canvas = document.getElementById('myCanvas');
+        let ctx = canvas.getContext('2d');
+
+        // Set canvas size
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Define the center of the spiral
+        let centerX = canvas.width / 2;
+        let centerY = canvas.height / 2;
+
+        // Define the parameters for the spiral
+        let angle = 90;
+        let radius = 100;
+        let angleIncrement = 0.05; // This controls the "tightness" of the spiral
+        let radiusIncrement = 0.5; // This controls the distance between loops
+
+        let anime = 0;
+        // Animation function
+        function animate() {
+            // Clear the canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw the spiral
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            anime += 0.001;
+
+
+            let x = centerX
+            let y = centerY
+            for (let i = 0; i < 2000; i++) {
+                const oldx = x;
+                const oldy = y;
+                ctx.beginPath();
+                ctx.moveTo(oldx, oldy);
+                // Calculate the position of the next point
+                x = centerX + radius * Math.cos(angle);
+                y = centerY + radius * Math.sin(angle);
+                // Draw a line to the next point
+                ctx.strokeStyle = '#f00'; // Red
+                ctx.lineTo(x, y);
+                ctx.stroke();
+                // Update the angle and radius for the next point
+                angle += angleIncrement + anime;
+                radius += radiusIncrement + anime;
+            }
+
+            ctx.stroke();
+
+            // Reset the angle and radius for the next frame
+            angle = 0;
+            radius = 0;
+        }
+
+        // Start the animation
+        animate()
+        setInterval(animate, 10); // 100ms delay between each frame
+    </script>
+</body>
+
+</html>
